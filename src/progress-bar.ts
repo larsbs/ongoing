@@ -3,7 +3,7 @@ export interface ProgressBarOptions {
   width: number;
   completedChar: string;
   incompletedChar: string;
-  headChar: string;
+  headChar?: string;
 }
 
 const defaults = {
@@ -11,7 +11,6 @@ const defaults = {
   width: 30,
   completedChar: '=',
   incompletedChar: '-',
-  headChar: '=',
 };
 
 export class ProgressBar {
@@ -65,7 +64,7 @@ export class ProgressBar {
     const completedChars = Array(completedLength).fill(completedChar);
     const incompletedChars = Array(width - completedLength).fill(incompletedChar);
 
-    if (completedLength > 0 && completedLength !== width) {
+    if (completedLength > 0 && completedLength !== width && headChar != null) {
       // Add head character
       completedChars[completedChars.length - 1] = headChar;
     }
