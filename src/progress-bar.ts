@@ -17,12 +17,26 @@ const defaults = {
 export class ProgressBar {
   private readonly _options: ProgressBarOptions;
   private _current = 0;
+  private _lastRender?: string;
 
-  constructor(private readonly _format: string, options: Partial<ProgressBarOptions>) {
+  constructor(private readonly _format: string, options: Partial<ProgressBarOptions> = {}) {
+    if (!this._format.includes(':bar')) {
+      throw new Error('At least a :bar token is required.');
+    }
+
     this._options = { ...defaults, ...options };
+    this.render();
+  }
+
+  get lastRender() {
+    return this._lastRender;
   }
 
   public update(percentage: number, customTokens?: Record<string, string>): string {
+    if (percentage > 1) {
+      throw new Error('Invalid percentage. Percentages are specified in a range from 0 to 1.');
+    }
+
     const { total } = this._options;
     const goal = Math.floor(percentage * total);
     const delta = goal - this._current;
@@ -32,6 +46,10 @@ export class ProgressBar {
   public tick(delta: number, customTokens?: Record<string, string>): string {
     if (delta === 0) {
       return this.render(customTokens);
+    }
+
+    if (delta > this._options.total) {
+      throw new Error('Invalid delta. Bigger than total value.');
     }
 
     this._current += delta;
@@ -44,8 +62,8 @@ export class ProgressBar {
     const percentage = Math.floor(progress * 100);
 
     const completedLength = Math.round(width * progress);
-    const completedChars = Array(completedLength + 1).fill(completedChar);
-    const incompletedChars = Array(width - completedLength + 1).fill(incompletedChar);
+    const completedChars = Array(completedLength).fill(completedChar);
+    const incompletedChars = Array(width - completedLength).fill(incompletedChar);
 
     if (completedLength > 0 && completedLength !== width) {
       // Add head character
@@ -57,7 +75,7 @@ export class ProgressBar {
       .replace(':current', String(this._current))
       .replace(':total', String(total))
       .replace(':percent', `${percentage.toFixed(0)}%`)
-      .replace(':bar', completedChars.join() + incompletedChars.join());
+      .replace(':bar', completedChars.join('') + incompletedChars.join(''));
 
     // Replace customTokens
     if (customTokens != null) {
@@ -66,6 +84,8 @@ export class ProgressBar {
         output = output.replace(`:${token}`, value);
       });
     }
+
+    this._lastRender = output;
 
     return output;
   }

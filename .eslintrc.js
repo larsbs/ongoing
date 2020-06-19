@@ -1,25 +1,19 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-react', 'eslint-plugin-jest'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-jest'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:react/recommended',
     'plugin:jest/recommended',
     'plugin:jest/style',
   ],
   parserOptions: {
     sourceType: 'module',
   },
-  settings: {
-    react: {
-      version: '16',
-    },
-  },
+  settings: {},
   env: {
     node: true,
     commonjs: true,
-    browser: true,
     es6: true,
   },
   rules: {
@@ -57,11 +51,5 @@ module.exports = {
     'no-useless-constructor': ['off'],
     '@typescript-eslint/no-useless-constructor': ['warn'],
     'no-empty-pattern': ['off'],
-
-    // React
-    'react/prop-types': ['off'],
-    'react/no-unescaped-entities': ['off'],
-    'react/style-prop-object': ['warn'],
-    'react/display-name': ['off'],
   },
 };
