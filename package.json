@@ -6,6 +6,9 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "prepublishOnly": "npm run clean && npm run build",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -34,6 +37,7 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "prettier-plugin-import-sort": "0.0.4",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.5"
   }
