@@ -1,0 +1,17 @@
+{
+  "name": "ongoing",
+  "version": "1.0.0",
+  "description": "A simple ascii progress bar renderer.",
+  "author": "Lars <lars.bs@hotmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {},
+  "devDependencies": {
+    "import-sort-style-local": "^1.0.0",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "prettier-plugin-import-sort": "0.0.4",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  }
+}
